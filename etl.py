@@ -74,9 +74,9 @@ for j, trend in enumerate(keywords):
     df_trend['year'] = df_trend['Term / Date'].dt.year
     df_trend['datetime'] = pd.to_datetime(df_trend[['year', 'month', 'day']])
     df_trend = df_trend.set_index('datetime')
-    df_trend = df_trend[['palestina']]
+    df_trend = df_trend[[trend]]
 
-    if i == 0:
+    if j == 0:
         df_trends = df_trend
     else:
         df_trends = pd.merge(df_trends, df_trend, left_index=True, right_index=True)
