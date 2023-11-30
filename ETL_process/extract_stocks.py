@@ -1,5 +1,5 @@
+import os
 import yfinance as yf
-from apify_client import ApifyClient
 import pandas as pd
 
 def get_stocksData(tickers_name):
@@ -21,6 +21,15 @@ def get_stocksData(tickers_name):
             tickers_stock_merged= pd.DataFrame(ticker_stock)
         else:
             tickers_stock_merged= pd.merge(tickers_stock_merged, ticker_stock, left_index= True, right_index= True)
-                    
     
-    return tickers_stock_merged
+    save_path= os.path.dirname(os.path.abspath(__file__))
+    csv_filename = os.path.join(save_path,'data', 'stock.csv')
+    os.makedirs(os.path.join(save_path,'data'), exist_ok=True)
+
+
+    if os.path.exists(csv_filename):
+        tickers_stock_merged.to_csv(csv_filename, mode='w')
+    else:
+        tickers_stock_merged.to_csv(csv_filename)
+
+    

@@ -1,3 +1,4 @@
+import os
 from apify_client import ApifyClient
 import pandas as pd
 
@@ -60,4 +61,11 @@ def get_trendsData(API_TOKEN, keywords):
     for col in df_trend.columns:
         df_trend[col] = df_trend[col].astype(int)
 
-    return df_trends
+    save_path= os.path.dirname(os.path.abspath(__file__))
+    csv_filename = os.path.join(save_path,'data', 'trends.csv')
+    os.makedirs(os.path.join(save_path,'data'), exist_ok=True)
+    
+    if os.path.exists(csv_filename):
+        df_trends.to_csv(csv_filename, mode='w')
+    else:
+        df_trends.to_csv(csv_filename)
